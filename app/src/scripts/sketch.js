@@ -1,7 +1,7 @@
-var count = 60;
+var count = 7;
 var org = [];
 function setup() {
-    createCanvas(windowWidth-20,800);
+    createCanvas(500,550);
     // background(0,0,0);
     for(var i = 0; i < count; i++){
         org[i] = new Organism();
@@ -9,7 +9,7 @@ function setup() {
 }
 
 function draw() {
-    // background(255);
+    background(255);
     for(var i = 0; i < org.length; i++){
         org[i].move();
         if(org[i].y > (height + org[i].radius)){
@@ -40,6 +40,8 @@ function draw() {
 function Organism(){
     this.size = random(15, 70);
     this.radius = this.size/2;
+    this.changeX = random(-20,20);
+    this.changeY = random(-20,20);
     this.r = 255;
     this.g = 255;
     this.b = 255;
@@ -51,10 +53,15 @@ function Organism(){
     this.move = function() {
         // this.x += random(-10, 10, 5);
         // this.y += random(-10, 10, 5);
-        this.x += (noise(this.x*(random(-100,100)), this.y*(random(-100,100)), frameCount*.025) - .45) * 30;
-        this.y += (noise(this.x*(random(-100,100)), frameCount*.025, this.y*(random(-100,100))) - .45) * 30;
-        this.b -= this.changeRate * 2;
-        this.g -= this.changeRate * 1.324;
+        this.x += this.changeX;
+        this.y += this.changeY;
+        this.changeX += (noise(this.x*.025, this.y*.025, frameCount*.025) - .5) * 1;
+        this.changeX += (noise(this.x*.025, this.y*.025, frameCount*.025) - .5) * 1;
+        this.changeX *= .98;
+        this.changeX *= .98;
+
+        this.b -= this.changeRate;
+        this.g -= this.changeRate * 2;
 
     }
 
